@@ -1,6 +1,7 @@
+/* eslint-disable no-return-assign */
 /* ************************************************************************************************
  *                                                                                                *
- * Plese read the following tutorial before implementing tasks:                                   *
+ * Please read the following tutorial before implementing tasks:                                   *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object        *
  *                                                                                                *
@@ -8,7 +9,7 @@
 
 
 /**
- * Returns the rectagle object with width and height parameters and getArea() method
+ * Returns the rectangle object with width and height parameters and getArea() method
  *
  * @param {number} width
  * @param {number} height
@@ -20,8 +21,10 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  this.width = width;
+  this.height = height;
+  this.getArea = () => this.width * this.height;
 }
 
 
@@ -35,8 +38,8 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  return JSON.stringify(obj);
 }
 
 
@@ -51,8 +54,9 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  const objFromJ = JSON.parse(json);
+  return Object.assign(Object.create(proto), objFromJ);
 }
 
 
@@ -111,35 +115,81 @@ function fromJSON(/* proto, json */) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  prev: [],
+  midCombinator: [],
+  reversedPrev: null,
+  count: 0,
+
+  element(value) {
+    if (this.value) {
+      this.prev.push(this.value);
+    }
+    this.value = '';
+    this.value += `${value}`;
+    return this;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    this.value += `#${value}`;
+    return this;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    this.value += `.${value}`;
+    return this;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    this.value += `[${value}]`;
+    return this;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    this.value += `:${value}`;
+    return this;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    this.value += `::${value}`;
+    return this;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator) {
+    this.addMidCombinator(combinator);
+    if (this.prev.length > 0) {
+      this.reversedPrev = this.prev.reverse();
+      this.prev = [];
+    }
+    if (this.reversedPrev) {
+      if (this.count < this.reversedPrev.length) {
+        this.midCombinator.push(this.reversedPrev[this.count]);
+        this.count += 1;
+      }
+      if (this.count === this.reversedPrev.length) {
+        this.value = `${this.midCombinator.reverse().join('')}${this.value}`;
+      }
+    }
+    return this;
+  },
+
+  twicedError() {
+    throw new Error('if element, id or pseudo-element occurs twice or more times');
+  },
+
+  addMidCombinator(element) {
+    this.midCombinator.push(` ${element} `);
+    return this;
+  },
+
+  stringify() {
+    this.midCombinator = [];
+    this.count = 0;
+    this.reversedPrev = null;
+    const result = this.value;
+    this.value = '';
+    return result;
   },
 };
-
 
 module.exports = {
   Rectangle,
