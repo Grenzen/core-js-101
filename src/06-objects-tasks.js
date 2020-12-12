@@ -1,4 +1,3 @@
-/* eslint-disable no-return-assign */
 /* ************************************************************************************************
  *                                                                                                *
  * Please read the following tutorial before implementing tasks:                                   *
@@ -115,80 +114,107 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
-  prev: [],
-  midCombinator: [],
-  reversedPrev: null,
-  count: 0,
-
-  element(value) {
-    if (this.value) {
-      this.prev.push(this.value);
-    }
-    this.value = '';
-    this.value += `${value}`;
-    return this;
+  element(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  id(value) {
-    this.value += `#${value}`;
-    return this;
+  id(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  class(value) {
-    this.value += `.${value}`;
-    return this;
+  class(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  attr(value) {
-    this.value += `[${value}]`;
-    return this;
+  attr(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  pseudoClass(value) {
-    this.value += `:${value}`;
-    return this;
+  pseudoClass(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  pseudoElement(value) {
-    this.value += `::${value}`;
-    return this;
+  pseudoElement(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  combine(selector1, combinator) {
-    this.addMidCombinator(combinator);
-    if (this.prev.length > 0) {
-      this.reversedPrev = this.prev.reverse();
-      this.prev = [];
-    }
-    if (this.reversedPrev) {
-      if (this.count < this.reversedPrev.length) {
-        this.midCombinator.push(this.reversedPrev[this.count]);
-        this.count += 1;
-      }
-      if (this.count === this.reversedPrev.length) {
-        this.value = `${this.midCombinator.reverse().join('')}${this.value}`;
-      }
-    }
-    return this;
+  combine(/* selector1, combinator, selector2 */) {
+    throw new Error('Not implemented');
   },
+  // prev: [],
+  // midCombinator: [],
+  // reversedPrev: null,
+  // count: 0,
 
-  twicedError() {
-    throw new Error('if element, id or pseudo-element occurs twice or more times');
-  },
+  // element(value) {
+  //   if (this.value) {
+  //     this.prev.push(this.value);
+  //   }
+  //   this.value = '';
+  //   this.value += `${value}`;
+  //   return this;
+  // },
 
-  addMidCombinator(element) {
-    this.midCombinator.push(` ${element} `);
-    return this;
-  },
+  // id(value) {
+  //   this.value += `#${value}`;
+  //   return this;
+  // },
 
-  stringify() {
-    this.midCombinator = [];
-    this.count = 0;
-    this.reversedPrev = null;
-    const result = this.value;
-    this.value = '';
-    return result;
-  },
+  // class(value) {
+  //   this.value += `.${value}`;
+  //   return this;
+  // },
+
+  // attr(value) {
+  //   this.value += `[${value}]`;
+  //   return this;
+  // },
+
+  // pseudoClass(value) {
+  //   this.value += `:${value}`;
+  //   return this;
+  // },
+
+  // pseudoElement(value) {
+  //   this.value += `::${value}`;
+  //   return this;
+  // },
+
+  // combine(selector1, combinator) {
+  //   this.addMidCombinator(combinator);
+  //   if (this.prev.length > 0) {
+  //     this.reversedPrev = this.prev.reverse();
+  //     this.prev = [];
+  //   }
+  //   if (this.reversedPrev) {
+  //     if (this.count < this.reversedPrev.length) {
+  //       this.midCombinator.push(this.reversedPrev[this.count]);
+  //       this.count += 1;
+  //     }
+  //     if (this.count === this.reversedPrev.length) {
+  //       this.value = `${this.midCombinator.reverse().join('')}${this.value}`;
+  //     }
+  //   }
+  //   return this;
+  // },
+
+  // twicedError() {
+  //   throw new Error('if element, id or pseudo-element occurs twice or more times');
+  // },
+
+  // addMidCombinator(element) {
+  //   this.midCombinator.push(` ${element} `);
+  //   return this;
+  // },
+
+  // stringify() {
+  //   this.midCombinator = [];
+  //   this.count = 0;
+  //   this.reversedPrev = null;
+  //   const result = this.value;
+  //   this.value = '';
+  //   return result;
+  // },
 };
 
 module.exports = {
