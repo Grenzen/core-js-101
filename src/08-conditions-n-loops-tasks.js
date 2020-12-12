@@ -441,7 +441,6 @@ function evaluateTicTacToePosition(/* position */) {
   throw new Error('Not implemented');
 }
 
-
 module.exports = {
   getFizzBuzz,
   getFactorial,
